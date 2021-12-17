@@ -8,6 +8,7 @@ mais ca reste sympa de coder de temps en temps
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int max(int a, int b)
 {	
@@ -26,6 +27,8 @@ int main()
 	int x1, x2, y1, y2;
 	char trash;
 	int countCollisions = 0;
+	bool isFirstTheLeft;
+	bool isFirstUpper;
 
 	f = fopen("Day5/d5.txt", "r+");
 
@@ -50,7 +53,7 @@ int main()
 			{
 				map[x1][i] += 1;
 			}
-			printf("%d %d %d %d\n", x1, y1, x2, y2);
+			//printf("%d %d %d %d\n", x1, y1, x2, y2);
 		}
 
 		if(y1 == y2)
@@ -60,7 +63,49 @@ int main()
 			{
 				map[i][y1] += 1;
 			}
-			printf("%d %d %d %d\n", x1, y1, x2, y2);
+			//printf("%d %d %d %d\n", x1, y1, x2, y2);
+		}
+
+		if(abs(x1 - x2) == abs(y1 - y2) )
+		//diagonals too
+		{
+			printf("%d %d\n", x1-x2, y1- y2);
+
+			isFirstTheLeft = (y1 - y2) < 0;
+			isFirstUpper = (x1 - x2) > 0;
+
+			if(x1 < x2 && y1 < y2)
+			{
+				for(int i = x1; i <= x2; i++)
+				{
+					map[i][i - x1 + y1] +=1;
+				}
+			}
+			else if(x1 < x2 && y2 < y1)
+			{
+				for(int i = x1; i <= x2; i++)
+				{
+					map[i][- i + x1 + y1] +=1;
+				}
+			}
+			else if(x2 < x1 && y2 < y1)
+			{
+				for(int i = x2; i <= x1; i++)
+				{
+					map[i][- i + x1 + y1] +=1;
+				}
+			}
+			else if(x2 < x1 && y1 < y2)
+			{
+				for(int i = x2; i <= x1; i++)
+				{
+					map[i][i - x1 + y1] +=1;
+				}
+			}
+			else
+			{
+				printf("pb : %d %d %d %d\n", x1, y1, x2, y2);
+			}
 		}
 	}
 	
